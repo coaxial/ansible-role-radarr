@@ -1,12 +1,13 @@
 ---
-'on':
+name: CI
+"on":
   pull_request:
   push:
     branches:
       - master
 env:
-  PY_COLORS: '1'
-  ANSIBLE_FORCE_COLOR: '1'
+  PY_COLORS: "1"
+  ANSIBLE_FORCE_COLOR: "1"
 
 jobs:
   lint:
@@ -19,7 +20,7 @@ jobs:
       - name: Setup Python 3
         uses: actions/setup-python@v2
         with:
-          python-version: '3.x'
+          python-version: "3.x"
 
       - name: Install test dependencies
         run: pip3 install -r requirements.txt
@@ -35,6 +36,11 @@ jobs:
   test:
     name: Test
     runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        distro:
+          - ubuntu1804
+          - ubuntu2004
     steps:
       - name: Checkout codebase
         uses: actions/checkout@v2
@@ -47,7 +53,7 @@ jobs:
       - name: Setup Python 3
         uses: actions/setup-python@v2
         with:
-          python-version: '3.x'
+          python-version: "3.x"
 
       - name: Install dependencies
         run: pip3 install -r requirements.txt
@@ -62,3 +68,5 @@ jobs:
 
       - name: Run molecule
         run: molecule test
+        env:
+          MOLECULE_DISTRO: ${{ matrix.distro }}
