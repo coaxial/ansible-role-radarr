@@ -1,12 +1,43 @@
+---
+# See https://github.com/nginxinc/ansible-role-nginx/issues/507
+- name: Install gpg-agent (NGINX role prerequisite)
+  ansible.builtin.package:
+    name: gpg-agent
+    state: present
+
 - name: Install nginx
-  include_role: nginxinc.nginx
+  ansible.builtin.include_role:
+    name: nginxinc.nginx
   when: radarr__use_nginx
 
-- name: Configure Radarr for nginx
+- name: Create NGINX enabled sites directory
   ansible.builtin.file:
-    src: nginx-radarr.conf
-    dest: /etc/nginx/conf.d/radarr.conf
+    path: /etc/nginx/enabled
+    state: directory
     mode: "0644"
-    owner: www-data
-    group: www-data
-  when: radarr__use_nginx
+    owner: root
+    group: root
+  notify:
+    - Restart NGINX
+
+- name: Remove default site
+  ansible.builtin.file:
+    path: /etc/nginx/conf.d/default.conf
+    state: absent
+  notify:
+    - Restart NGINX
+
+- name: Configure Radarr for NGINX
+  ansible.builtin.copy:
+    src: "{{ item.file }}"
+    dest: "{{ item.dest }}"
+    mode: "0644"
+    owner: root
+    group: root
+  with_items:
+    - file: nginx-radarr.conf
+      dest: /etc/nginx/enabled/radarr.conf
+    - file: nginx.conf
+      dest: /etc/nginx/nginx.conf
+  notify:
+    - Restart NGINX

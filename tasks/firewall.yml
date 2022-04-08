@@ -1,0 +1,32 @@
+---
+- name: Install iptables
+  ansible.builtin.package:
+    name: "{{ item }}"
+    state: present
+  with_items:
+    - iptables
+    - iptables-persistent
+
+- name: Open HTTP port
+  ansible.builtin.iptables:
+    chain: INPUT
+    protocol: tcp
+    match: tcp
+    destination_port: http
+    comment: Allow HTTP traffic
+    ctstate: NEW,ESTABLISHED
+    jump: ACCEPT
+  notify:
+    - Persist iptables rules
+
+- name: Open HTTP port (contd)
+  ansible.builtin.iptables:
+    chain: OUTPUT
+    protocol: tcp
+    match: tcp
+    source_port: http
+    comment: Allow HTTP traffic
+    ctstate: ESTABLISHED
+    jump: ACCEPT
+  notify:
+    - Persist iptables rules

@@ -15,14 +15,23 @@ def test_user(host):
     assert u.password == '!'
     assert u.shell == '/usr/bin/env nologin'
 
-def test_radarr_dir(host):
-    install_dir = host.dir('/opt/Radarr')
+def test_radarr_install_dir(host):
+    d = host.file('/opt/Radarr')
 
-    assert install_dir.exists
-    assert install_dir.is_directory
-    assert install_dir.user == 'radarr'
-    assert install_dir.group == 'media'
-    assert install_dir.mode == '0755'
+    assert d.exists
+    assert d.is_directory
+    assert d.user == 'radarr'
+    assert d.group == 'radarr'
+    assert d.mode == 0o755
+
+def test_radarr_config_dir(host):
+    d = host.file('/var/lib/radarr')
+
+    assert d.exists
+    assert d.is_directory
+    assert d.user == 'radarr'
+    assert d.group == 'media'
+    assert d.mode == 0o755
 
 def test_radarr_service(host):
     s = host.service('radarr')
@@ -31,20 +40,20 @@ def test_radarr_service(host):
     assert s.is_running
 
 def test_radarr_http(host):
-    ui = host.addr('127.0.0.1/radarr')
+    html = host.run('curl http://localhost/radarr').stdout
 
-    assert ui.port(80).is_reachable
+    assert 'Radarr' in html
 
 def test_firewall(host):
-    r = host.iptables.rules()
+    i = host.iptables
 
     assert (
         '-A INPUT -p tcp -m tcp --dport 80 '
-        '-m conntrack --ctstate NEW,ESTABLISHED'
+        '-m conntrack --ctstate NEW,ESTABLISHED '
         '-m comment --comment "Allow HTTP traffic" -j ACCEPT'
     ) in i.rules('filter', 'INPUT')
     assert (
-        '-A OUTPUT -p tcp --sport 80 -m conntrack --ctstate ESTABLISHED'
+        '-A OUTPUT -p tcp -m tcp --sport 80 '
+        '-m conntrack --ctstate ESTABLISHED '
         '-m comment --comment "Allow HTTP traffic" -j ACCEPT'
     ) in i.rules('filter', 'OUTPUT')
-

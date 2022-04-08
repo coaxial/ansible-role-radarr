@@ -1,10 +1,14 @@
 ---
+- name: Populate service facts
+  ansible.builtin.service_facts:
+
 - name: Stop Radarr
   ansible.builtin.systemd:
     name: radarr
     state: stopped
   notify:
     - Start Radarr
+  when: "'radarr' in services"
 
 - name: Install dependencies
   ansible.builtin.package:
@@ -27,18 +31,15 @@
 
 - name: Download latest Radarr
   ansible.builtin.get_url:
-    url: >-
-      http://radarr.servarr.com/v1/update/master
-      /updatefile?os=linux&runtime=netcore&arch=x64
+    url: |
+      http://radarr.servarr.com/v1/update/master/updatefile?os=linux&runtime=netcore&arch=x64
     dest: /tmp/radarr.tar.gz
   when: radarr__version == 'latest'
 
 - name: "Download Radarr v{{ radarr__version }}"
   ansible.builtin.get_url:
-    url: >-
-      "https://github.com/Radarr/Radarr/releases/download/
-      v{{ radarr__version }}
-      /Radarr.master.{{ radarr__version }}.linux-core-x64.tar.gz"
+    url: |
+      "https://github.com/Radarr/Radarr/releases/download/v{{ radarr__version }}/Radarr.master.{{ radarr__version }}.linux-core-x64.tar.gz"
     dest: /tmp/radarr.tar.gz
   when: radarr__version != 'latest'
 

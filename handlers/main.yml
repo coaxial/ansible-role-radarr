@@ -5,3 +5,16 @@
     daemon_reload: yes
     enabled: yes
     state: started
+
+- name: Save iptables v4 rules
+  ansible.builtin.shell: iptables-save > /etc/iptables/rules.v4
+  listen: Persist iptables rules
+
+- name: Save iptables v6 rules
+  ansible.builtin.shell: ip6tables-save > /etc/iptables/rules.v6
+  listen: Persist iptables rules
+
+- name: Restart NGINX
+  ansible.builtin.systemd:
+    name: nginx
+    state: restarted

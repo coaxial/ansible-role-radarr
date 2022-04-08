@@ -16,4 +16,4 @@ galaxy_info:
 
   galaxy_tags: [radarr, servarr]
 
-dependencies: [nginxinc.nginx]
+dependencies: []

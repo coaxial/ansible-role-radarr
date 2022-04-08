@@ -4,5 +4,8 @@
     update_cache: true
     cache_valid_time: 216000 # seconds; i.e. 1 day
 
+- include_tasks: nginx.yml
+  when: radarr__use_nginx
+- include_tasks: firewall.yml
 - include_tasks: user.yml
 - include_tasks: radarr.yml
