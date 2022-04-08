@@ -1,0 +1,8 @@
+---
+- name: Ensure radarr user exists
+  ansible.builtin.user:
+    name: "{{ radarr__username }}"
+    password: "{{ radarr__password }}"
+    group: "{{ radarr__group }}"
+    shell: /usr/bin/env nologin
+    state: present

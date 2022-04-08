@@ -1,2 +1,7 @@
 ---
-# handlers file for radarr
+- name: Start Radarr
+  ansible.builtin.systemd:
+    name: radarr
+    daemon_reload: yes
+    enabled: yes
+    state: started

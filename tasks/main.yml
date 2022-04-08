@@ -1,4 +1,8 @@
 ---
-- name: Molecule Hello World!
-  debug:
-    msg: Hello, World!
+- name: Refresh apt cache
+  ansible.builtin.apt:
+    update_cache: true
+    cache_valid_time: 216000 # seconds; i.e. 1 day
+
+- include_tasks: user.yml
+- include_tasks: radarr.yml

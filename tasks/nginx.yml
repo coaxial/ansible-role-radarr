@@ -1,0 +1,12 @@
+- name: Install nginx
+  include_role: nginxinc.nginx
+  when: radarr__use_nginx
+
+- name: Configure Radarr for nginx
+  ansible.builtin.file:
+    src: nginx-radarr.conf
+    dest: /etc/nginx/conf.d/radarr.conf
+    mode: "0644"
+    owner: www-data
+    group: www-data
+  when: radarr__use_nginx

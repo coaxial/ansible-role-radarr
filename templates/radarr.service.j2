@@ -1,0 +1,14 @@
+[Unit]
+Description=Radarr Daemon
+After=syslog.target network.target
+[Service]
+User={{ radarr__username }}
+Group={{ radarr__group }}
+Type=simple
+
+ExecStart={{ radarr__install_directory }}/Radarr/Radarr -nobrowser -data={{ radarr__config_directory }}
+TimeoutStopSec=20
+KillMode=process
+Restart=on-failure
+[Install]
+WantedBy=multi-user.target

@@ -1,2 +1,8 @@
 ---
-# defaults file for radarr
+radarr__config_directory: /var/lib/radarr
+radarr__install_directory: /opt
+radarr__username: radarr
+radarr__password: "!" # password disabled
+radarr__group: media
+radarr__version: latest
+radarr__use_nginx: yes

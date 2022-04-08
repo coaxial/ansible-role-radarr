@@ -1,0 +1,62 @@
+---
+- name: Stop Radarr
+  ansible.builtin.systemd:
+    name: radarr
+    state: stopped
+  notify:
+    - Start Radarr
+
+- name: Install dependencies
+  ansible.builtin.package:
+    name: "{{ item }}"
+    state: present
+  with_items:
+    - curl
+    - sqlite3
+
+- name: Create Radarr directories
+  ansible.builtin.file:
+    path: "{{ item }}"
+    state: directory
+    mode: "0755"
+    owner: "{{ radarr__username }}"
+    group: "{{ radarr__group }}"
+  with_items:
+    - "{{ radarr__config_directory }}"
+    - "{{ radarr__install_directory }}"
+
+- name: Download latest Radarr
+  ansible.builtin.get_url:
+    url: >-
+      http://radarr.servarr.com/v1/update/master
+      /updatefile?os=linux&runtime=netcore&arch=x64
+    dest: /tmp/radarr.tar.gz
+  when: radarr__version == 'latest'
+
+- name: "Download Radarr v{{ radarr__version }}"
+  ansible.builtin.get_url:
+    url: >-
+      "https://github.com/Radarr/Radarr/releases/download/
+      v{{ radarr__version }}
+      /Radarr.master.{{ radarr__version }}.linux-core-x64.tar.gz"
+    dest: /tmp/radarr.tar.gz
+  when: radarr__version != 'latest'
+
+- name: Decompress Radarr
+  ansible.builtin.unarchive:
+    src: /tmp/radarr.tar.gz
+    dest: "{{ radarr__install_directory }}"
+    owner: "{{ radarr__username }}"
+    group: "{{ radarr__username }}"
+    remote_src: yes
+    creates: "{{ radarr__install_directory }}/Radarr"
+
+- name: Configure systemd
+  ansible.builtin.template:
+    src: radarr.service.j2
+    dest: /etc/systemd/system/radarr.service
+    owner: root
+    group: root
+    mode: "0755"
+  notify:
+    - Start Radarr
