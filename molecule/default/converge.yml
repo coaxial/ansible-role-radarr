@@ -3,5 +3,5 @@
   hosts: all
   tasks:
     - name: "Include coaxial.radarr"
-      include_role:
+      ansible.builtin.include_role:
         name: "coaxial.radarr"

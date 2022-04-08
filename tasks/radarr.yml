@@ -34,6 +34,7 @@
     url: |
       http://radarr.servarr.com/v1/update/master/updatefile?os=linux&runtime=netcore&arch=x64
     dest: /tmp/radarr.tar.gz
+    mode: "0644"
   when: radarr__version == 'latest'
 
 - name: "Download Radarr v{{ radarr__version }}"
@@ -41,6 +42,7 @@
     url: |
       "https://github.com/Radarr/Radarr/releases/download/v{{ radarr__version }}/Radarr.master.{{ radarr__version }}.linux-core-x64.tar.gz"
     dest: /tmp/radarr.tar.gz
+    mode: "0644"
   when: radarr__version != 'latest'
 
 - name: Decompress Radarr

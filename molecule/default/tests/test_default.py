@@ -15,6 +15,7 @@ def test_user(host):
     assert u.password == '!'
     assert u.shell == '/usr/bin/env nologin'
 
+
 def test_radarr_install_dir(host):
     d = host.file('/opt/Radarr')
 
@@ -23,6 +24,7 @@ def test_radarr_install_dir(host):
     assert d.user == 'radarr'
     assert d.group == 'radarr'
     assert d.mode == 0o755
+
 
 def test_radarr_config_dir(host):
     d = host.file('/var/lib/radarr')
@@ -33,16 +35,19 @@ def test_radarr_config_dir(host):
     assert d.group == 'media'
     assert d.mode == 0o755
 
+
 def test_radarr_service(host):
     s = host.service('radarr')
 
     assert s.is_enabled
     assert s.is_running
 
+
 def test_radarr_http(host):
     html = host.run('curl http://localhost/radarr').stdout
 
     assert 'Radarr' in html
+
 
 def test_firewall(host):
     i = host.iptables
