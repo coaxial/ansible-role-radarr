@@ -61,9 +61,6 @@ jobs:
           yamllint --version
           pip show pytest-testinfra
 
-      - name: Install Galaxy dependencies
-        run: ansible-galaxy install -r requirements.yml
-
       - name: Run molecule
         run: molecule test
         env:
