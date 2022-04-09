@@ -5,7 +5,7 @@
     cache_valid_time: 216000 # seconds; i.e. 1 day
 
 - name: Gather facts # to determine distribution etc.
-  setup:
+  ansible.builtin.setup:
 
 - include_tasks: nginx.yml
   when: radarr__use_nginx
