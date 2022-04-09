@@ -23,7 +23,7 @@ jobs:
           python-version: "3.x"
 
       - name: Install test dependencies
-        run: pip3 install -r requirements.txt
+        run: pip3 install -r requirements-test.txt
 
       - name: Show versions
         run: |
@@ -55,7 +55,7 @@ jobs:
         with:
           python-version: "3.x"
 
-      - name: Install dependencies
+      - name: Install Python dependencies
         run: pip3 install -r requirements.txt
 
       - name: Show versions
@@ -65,6 +65,9 @@ jobs:
           flake8 --version
           yamllint --version
           pip show pytest-testinfra
+
+      - name: Install Galaxy dependencies
+        run: ansible-galaxy install -r requirements.yml
 
       - name: Run molecule
         run: molecule test
