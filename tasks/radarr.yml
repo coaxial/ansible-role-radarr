@@ -54,12 +54,24 @@
     remote_src: yes
     creates: "{{ radarr__install_directory }}/Radarr"
 
+- name: Install libicu (Ubuntu 18.04)
+  ansible.builtin.package:
+    name: libicu60
+    state: present
+  when: ansible_distribution_version is '18.04'
+
+- name: Install libicu (Ubuntu 20.04)
+  ansible.builtin.package:
+    name: libicu66
+    state: present
+  when: ansible_distribution_version is '20.04'
+
 - name: Configure systemd
   ansible.builtin.template:
     src: radarr.service.j2
     dest: /etc/systemd/system/radarr.service
     owner: root
     group: root
-    mode: "0755"
+    mode: "0644"
   notify:
     - Start Radarr

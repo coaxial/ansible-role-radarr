@@ -4,6 +4,9 @@
     update_cache: true
     cache_valid_time: 216000 # seconds; i.e. 1 day
 
+- name: Gather facts # to determine distribution etc.
+  setup:
+
 - include_tasks: nginx.yml
   when: radarr__use_nginx
 - include_tasks: firewall.yml
