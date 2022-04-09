@@ -12,7 +12,7 @@
     chain: INPUT
     protocol: tcp
     match: tcp
-    destination_port: http
+    destination_port: 80
     comment: Allow HTTP traffic
     ctstate: NEW,ESTABLISHED
     jump: ACCEPT
@@ -24,7 +24,7 @@
     chain: OUTPUT
     protocol: tcp
     match: tcp
-    source_port: http
+    source_port: 80
     comment: Allow HTTP traffic
     ctstate: ESTABLISHED
     jump: ACCEPT
