@@ -45,11 +45,6 @@ jobs:
       - name: Checkout codebase
         uses: actions/checkout@v2
 
-      - name: Install LXD
-        uses: whywaita/setup-lxd@v1
-        with:
-          lxd_version: latest/stable
-
       - name: Setup Python 3
         uses: actions/setup-python@v2
         with:
