@@ -8,7 +8,7 @@
     state: stopped
   notify:
     - Start Radarr
-  when: "'radarr' in services"
+  when: '"radarr.service" in services'
 
 - name: Install dependencies
   ansible.builtin.package:
