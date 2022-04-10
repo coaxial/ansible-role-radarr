@@ -22,8 +22,8 @@ jobs:
         with:
           python-version: "3.x"
 
-      - name: Install test dependencies
-        run: pip3 install -r requirements-test.txt
+      - name: Install lint dependencies
+        run: pip3 install -r requirements-lint.txt
 
       - name: Show versions
         run: |
