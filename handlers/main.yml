@@ -5,6 +5,10 @@
     daemon_reload: yes
     enabled: yes
     state: started
+  tags:
+    # radarr will always stop/start on every run to avoid installing a new
+    # version over the existing one while it's running.
+    - molecule-idempotence-notest
 
 - name: Save iptables v4 rules
   ansible.builtin.shell: iptables-save > /etc/iptables/rules.v4

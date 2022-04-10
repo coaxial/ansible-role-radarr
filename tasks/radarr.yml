@@ -9,6 +9,10 @@
   notify:
     - Start Radarr
   when: '"radarr.service" in services'
+  tags:
+    # this will always stop/start radarr, because we don't want to potentially
+    # install a new version below while it's running.
+    - molecule-idempotence-notest
 
 - name: Install dependencies
   ansible.builtin.package:
