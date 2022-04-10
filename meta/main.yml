@@ -1,7 +1,7 @@
 galaxy_info:
   author: coaxial
   namespace: coaxial
-  description: Sets up Radarr
+  description: Install and configure Radarr and optionally nginx
   role_name: radarr
 
   license: MIT
