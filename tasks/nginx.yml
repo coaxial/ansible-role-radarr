@@ -1,15 +1,4 @@
 ---
-# See https://github.com/nginxinc/ansible-role-nginx/issues/507
-- name: Install gpg-agent (NGINX role prerequisite)
-  ansible.builtin.package:
-    name: gpg-agent
-    state: present
-
-- name: Install nginx
-  ansible.builtin.include_role:
-    name: nginxinc.nginx
-  when: radarr__use_nginx
-
 - name: Create NGINX enabled sites directory
   ansible.builtin.file:
     path: /etc/nginx/enabled
