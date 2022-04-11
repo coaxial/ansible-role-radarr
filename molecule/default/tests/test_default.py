@@ -49,6 +49,12 @@ def test_radarr_http(host):
     assert 'Radarr' in html
 
 
+def test_radarr_url_base(host):
+    html = host.run('curl http://localhost/radarr').stdout
+
+    assert '/radarr/favicon.ico' in html
+
+
 def test_firewall(host):
     i = host.iptables
 

@@ -1,5 +1,10 @@
 # Radarr role
 
+## Instructions
+
+This role will install Radarr and (optionally) install and configure NGINX to
+serve the UI at `<server address>/radarr`.
+
 ## Variables and their defaults
 
 | variable name               | default value     | description                                                                             |
