@@ -79,3 +79,24 @@
     mode: "0644"
   notify:
     - Start Radarr
+
+- name: Check if Radarr config file exists
+  ansible.builtin.stat:
+    path: /var/lib/radarr/config.xml
+  register: raco
+
+- name: Configure UrlBase in Radarr (existing config)
+  ansible.builtin.lineinfile:
+    path: "/var/lib/radar/config.xml"
+    regexp: "^  <UrlBase>.*</UrlBase>"
+    line: "  <UrlBase>/radarr</UrlBase>"
+  when: raco.stat.exists
+
+- name: Configure UrlBase in Radarr (no config file)
+  ansible.builtin.copy:
+    src: radarr-config.xml
+    dest: /var/lib/radarr/config.xml
+    mode: "0644"
+    owner: "{{ radarr__username }}"
+    group: "{{ radarr__username }}"
+  when: not raco.stat.exists
