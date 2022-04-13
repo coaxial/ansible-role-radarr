@@ -90,6 +90,7 @@
     path: "{{ radarr__config_directory }}/config.xml"
     regexp: "^  <UrlBase>.*</UrlBase>"
     line: "  <UrlBase>/radarr</UrlBase>"
+    insertbefore: "</Config>"
   when: raco.stat.exists
 
 - name: Configure UrlBase in Radarr (no config file)

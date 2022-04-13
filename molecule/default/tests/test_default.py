@@ -1,4 +1,5 @@
 import os
+import re
 
 import testinfra.utils.ansible_runner
 
@@ -53,6 +54,16 @@ def test_radarr_url_base(host):
     html = host.run('curl http://localhost/radarr').stdout
 
     assert '/radarr/favicon.ico' in html
+
+
+def test_sonarr_config_file(host):
+    f = host.file('/var/lib/radarr/config.xml')
+    c = re.compile(
+        r"<Config>.*<UrlBase>/radarr</UrlBase>.*</Config>",
+        flags=re.DOTALL
+    )
+
+    assert re.match(c, f.content_string)
 
 
 def test_firewall(host):
