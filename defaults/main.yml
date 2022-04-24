@@ -4,5 +4,6 @@ radarr__install_directory: /opt
 radarr__username: radarr
 radarr__password: "!" # password disabled
 radarr__group: media
+radarr__group_id: 1100
 radarr__version: latest
 radarr__use_nginx: yes

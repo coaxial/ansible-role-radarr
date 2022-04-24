@@ -2,6 +2,7 @@
 - name: "Create {{ radarr__group }} group"
   ansible.builtin.group:
     name: "{{ radarr__group }}"
+    gid: "{{ radarr__group_id }}"
     state: present
 
 - name: "Create {{ radarr__username }} user"

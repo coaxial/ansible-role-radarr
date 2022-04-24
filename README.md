@@ -18,5 +18,6 @@ serve the UI at `<server address>/radarr`.
 | radarr\_\_username          | `radarr`          | Username under which to run Radarr                                                      |
 | radarr\_\_password          | `!` (disabled)    | Radarr user's password                                                                  |
 | radarr\_\_group             | `media`           | Radarr user's group                                                                     |
+| radarr\_\_group_id          | `1100`            | The GID for Radarr's group                                                              |
 | radarr\_\_version           | `latest` (stable) | See https://github.com/Radarr/Radarr/releases                                           |
 | radarr\_\_use_nginx         | `yes`             | Whether to install and configure nginx (`no` if you're installing/managing it yourself) |
